@@ -1,13 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
-import { ItemsList } from './components/ItemsList';
+import {Link, Switch, Route} from 'react-router-dom';
+import {PrivateRoute} from './components/PrivateRoute';
+import ItemsList from './components/ItemsList';
+import Login from './components/Login';
+import {Item}  from './components/Item';
+import {Registration} from './components/Registration';
+
 
 function App() {
   return (
     <div className="App">
-      <ItemsList/>
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+      
+        <header className="App-header"> 
+          {/* <ItemsList/> */}
+          <div>
+            <Link to='/login'>Login</Link>
+            <Link to='/protected/items'>Products</Link>
+            <Link to='/register'>Register</Link>
+            <Switch>
+              <PrivateRoute exact path='/protected/items' component={ItemsList}/>
+              <PrivateRoute exact path='/protected/items/:id' component={Item}/>
+              <Route path='/login' component={Login}/>
+              <Route path='/register' component={Registration}/>
+            </Switch>
+          </div>
+        {/* <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
@@ -18,8 +35,8 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
-        </a>
-      </header> */}
+        </a> */}
+      </header> 
     </div>
   );
 }
