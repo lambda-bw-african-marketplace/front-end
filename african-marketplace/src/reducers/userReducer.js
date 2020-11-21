@@ -1,33 +1,59 @@
-import {dummyUsers} from '../dummyData'
-
+// import {dummyUsers} from '../dummyData'
+import {FETCH_PRODUCTS,PRODUCTS_SUCCESS,PRODUCTS_FAIL} from '../actions/userActions';
 const initialState={
     users:[
-        {
-        id:1,      
-        email:'',
-        isAdmin: false,
-        first_name:'',
-        last_name:'',
-        created_at:'',
-        updated_at:'',
-        products:[]
-        },
-    ]
-        ,
-    
+        // {
+        // id:'',      
+        // email:'',
+        // isAdmin: false,
+        // first_name:'',
+        // last_name:'',
+        // created_at:'',
+        // updated_at:'',
+        // products:[{
+            // id: '',
+            // product_name: '',
+            // price: '',
+            // city: '',
+            // category: '',
+            // description: '',
+            // unit: '',
+            // image_url: '',
+            // user_id: {id}
+        //   }]
+            // },
+    ],
+    products:[],
     isFetching:false,
-    error:'',
+    fetchingError:'',
+    productsError:''
 }
 
-// export const pokemonReducer=(state=initialState,action)=>{
-//     switch(action.type){
-//         case FETCH_USERS:
-//             return {...state,
-//                 isFetching: true,
-//                 error:''
-//             }
-//         case FETCH_SUCCESS:
-//             return {...state,
-//             isFetching: false,
-//             }
-//     }
+export const userReducer=(state=initialState,action)=>{
+    switch(action.type){
+        case FETCH_PRODUCTS:
+            return {...state,
+                isFetching: true,
+                productsError:''
+            }
+        // case FETCH_SUCCESS:
+        //     return {...state,
+        //     isFetching: false,
+        //     users:action.payload
+        //     }
+        // case FETCH_FAIL:
+        //     return {...state,
+        //     isFetching:false,
+        //     fetchingError:action.payload
+        //     }
+        case PRODUCTS_SUCCESS:
+            return {...state,
+            isFetching:false,
+            products:action.payload}
+        case PRODUCTS_FAIL:
+            return {...state,
+            productsError:action.payload}
+        default:
+            return state
+    }
+}
