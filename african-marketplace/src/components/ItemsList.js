@@ -14,11 +14,12 @@ const ItemsList=((props)=>{
     const addProduct=(e)=>{
         e.preventDefault();
         axiosWithAuth()
-        .post('/api/products',item)
+        .post('/api/products',product)
         .then(res=>console.log(res))
+            // setProducts({...products,products:res}))
         .catch(err=>console.log(err));
-        // getProducts();        
-        setProduct({product_name:'',price:'',city:'',category:'',description:'',unit:''})
+        getProducts();        
+        // setProduct({product_name:'',price:'',city:'',category:'',description:'',unit:''})
     }
 
     const handleChange=(e)=>{
@@ -28,24 +29,25 @@ const ItemsList=((props)=>{
         })
     }
 
-    const formSubmit=(e)=>{ 
-        e.preventDefault();
+    // const formSubmit=(e)=>{ 
+    //     e.preventDefault();
 
-    }
-    console.log(product)
+    // }
+    console.log(props.products)
     return(
     <div>
         <h1>Items</h1>
-        {/* {products.map(item=>{return(
+        {products.map(item=>{
+            return(
             <div key={item.id}>
-                <h4>{item.name}</h4>
-                {/* <p>{item.email}</p> */}
-                {/* <p>{item.description}</p>
-                <p>${item.price}/lb</p>
-                <p>{item.user_id}</p> */}
-                {/* <br></br> */}
-            {/* </div> */}
-          {/* )})}  */}
+                <h4>{item.product_name}</h4>
+                <p>{item.price}/{item.unit}</p>
+                <p>{item.description}</p>
+                {/* <p>${item.price}/lb</p> */}
+                <p>{item.city}</p>
+                 <br></br>
+            </div>
+           )})}  
          {/* if user is a sellar show form if not n/a */}
         <form >
             <input type='text' name='product_name' placeholder='product name' value={product.product_name} onChange={handleChange}/>

@@ -18,8 +18,8 @@ function App() {
             <Link to='/protected/items'>Products</Link>
             <Link to='/register'>Register</Link>
             <Switch>
-              <PrivateRoute exact path='/protected/items' component={ItemsList}/>
-              <PrivateRoute exact path='/protected/items/:id' component={Item}/>
+              <PrivateRoute exact path='/protected/itemsList' component={ItemsList}/>
+              <PrivateRoute exact path='/protected/itemsList/:id' component={Item}/>
               <Route path='/login' component={Login}/>
               <Route path='/register' component={Registration}/>
             </Switch>

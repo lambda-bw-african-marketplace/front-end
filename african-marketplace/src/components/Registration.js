@@ -8,7 +8,7 @@ export const Registration=(props)=>{
     const addUser=(e)=>{
         e.preventDefault();
         axiosWithAuth()
-        .post('/api/auth/register',user)
+        .post('/api/register',user)
         .then(res=>console.log(res))
         .catch(err=>console.log(err));
         setUser({email:'',password:'',first_name:'',last_name:'',isAdmin:false})

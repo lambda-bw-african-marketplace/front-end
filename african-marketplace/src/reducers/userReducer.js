@@ -1,5 +1,5 @@
 // import {dummyUsers} from '../dummyData'
-import {FETCH_USERS,PRODUCTS_SUCCESS,PRODUCTS_FAIL} from '../actions/userActions';
+import {FETCH_PRODUCTS,PRODUCTS_SUCCESS,PRODUCTS_FAIL} from '../actions/userActions';
 const initialState={
     users:[
         // {
@@ -31,7 +31,7 @@ const initialState={
 
 export const userReducer=(state=initialState,action)=>{
     switch(action.type){
-        case FETCH_USERS:
+        case FETCH_PRODUCTS:
             return {...state,
                 isFetching: true,
                 productsError:''

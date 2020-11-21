@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import {axiosWithAuth} from '../axiosWithAuth'
 
 class Login extends React.Component{
     constructor(){
@@ -23,11 +24,13 @@ class Login extends React.Component{
 
     login=(e)=>{
         e.preventDefault();
-        axios
-        .post('https://africa-mkplace.herokuapp.com/api/auth/login',this.state.credentials)
+        // axios
+        axiosWithAuth()
+        .post('https://africa-mkplace.herokuapp.com/api/login',this.state.credentials)
         .then((res)=>{console.log(res)
-            // localStorage.setItem('token',res.data.payload);
-            // this.props.history.push('/protected/ItemsList');
+            localStorage.setItem('token',res.data.token);
+            // localStorage.setItem('*',res.data.headers['Access-Control-Allow-Origin']);
+            this.props.history.push('/protected/itemsList');
         })
         .catch((err)=>console.log(err));
     }
