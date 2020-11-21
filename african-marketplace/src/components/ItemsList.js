@@ -2,24 +2,27 @@ import React,{useState,useEffect} from 'react';
 // import {items} from './Items';
 import {connect} from 'react-redux';
 import {getProducts} from '../actions/userActions';
-import axios from 'axios';
+// import axios from 'axios';
 import { axiosWithAuth } from '../axiosWithAuth';
+import {useHistory} from 'react-router-dom'
 
-const item={product_name:'',price:'',city:'',category:'',description:'',unit:''};
+const item={name:'',price:'',city:'',category:'',description:'',unit:''};
 const ItemsList=((props)=>{
     const [products,setProducts]=useState(props.products);
     const [product,setProduct]=useState(item)
+    const {push}=useHistory();
+
     useEffect(()=>{props.getProducts();},[props.getProducts]);
 
     const addProduct=(e)=>{
         e.preventDefault();
         axiosWithAuth()
         .post('/api/products',product)
-        .then(res=>console.log(res))
-            // setProducts({...products,products:res}))
+        .then(res=>
+            setProducts([...products,res.data]))
         .catch(err=>console.log(err));
-        getProducts();        
-        // setProduct({product_name:'',price:'',city:'',category:'',description:'',unit:''})
+        props.getProducts();        
+        setProduct({name:'',price:'',city:'',category:'',description:'',unit:''})
     }
 
     const handleChange=(e)=>{
@@ -29,35 +32,47 @@ const ItemsList=((props)=>{
         })
     }
 
+    const deleteItem=(e,id)=>{
+        e.preventDefault();
+        axiosWithAuth()
+        .delete(`/api/products/${id}`,product)
+        .then(res=>console.log(res))
+        .catch(err=>console.log(err))
+    }
     // const formSubmit=(e)=>{ 
     //     e.preventDefault();
 
     // }
     console.log(props.products)
+    console.log(products)
     return(
     <div>
-        <h1>Items</h1>
-        {products.map(item=>{
-            return(
-            <div key={item.id}>
-                <h4>{item.product_name}</h4>
-                <p>{item.price}/{item.unit}</p>
-                <p>{item.description}</p>
-                {/* <p>${item.price}/lb</p> */}
-                <p>{item.city}</p>
-                 <br></br>
-            </div>
-           )})}  
-         {/* if user is a sellar show form if not n/a */}
+        <h1>Items</h1>        
         <form >
-            <input type='text' name='product_name' placeholder='product name' value={product.product_name} onChange={handleChange}/>
+            <input type='text' name='name' placeholder='product name' value={product.name} onChange={handleChange}/>
             <input type='text' name='price' placeholder='price' value={product.price} onChange={handleChange}/>
             <input type='text' name='city' placeholder='city' value={product.city} onChange={handleChange}/>
             <input type='text' name='category' placeholder='category' value={product.category} onChange={handleChange}/>
             <input type='text' name='description' placeholder='description' value={product.description} onChange={handleChange}/>
             <input type='text' name='unit' placeholder='unit ex.pounds,ounces,etc...' value={product.unit} onChange={handleChange}/>
             <button onClick={addProduct}>Add Item</button>
+
         </form>
+        {products.map(item=>{
+            return(
+            <div key={item.id}>
+                <h4>{item.name}</h4>
+                <p>${item.price}/{item.unit}</p>
+                <p>{item.description}</p>
+                {/* <p>${item.price}/lb</p> */}
+                <p>{item.city}</p>
+                <button onClick={()=>{push(`/protected/itemsList/${item.id}`)}}>Edit Item</button>
+                <button onClick={(e)=>{deleteItem(e,item.id)}}>Delete Item</button>
+                 <br></br>
+            </div>
+           )})}  
+         {/* if user is a sellar show form if not n/a */}
+
     </div>
     )
 })

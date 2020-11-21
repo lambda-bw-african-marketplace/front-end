@@ -5,7 +5,7 @@ export const axiosWithAuth=()=>{
     
     
     return axios.create({
-        baseURL:'https://cors-anywhere.herokuapp.com/https://africa-mkplace.herokuapp.com',
+        baseURL:'https://africa-mkplace.herokuapp.com',
         headers: {
             Authorization:token,
             // 'Access-Control-Allow-Origin': '*'
