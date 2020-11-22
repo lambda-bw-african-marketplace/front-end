@@ -1,10 +1,13 @@
 import {axiosWithAuth} from '../axiosWithAuth';
 import React,{useEffect,useState} from 'react';
 import {useParams,useHistory} from 'react-router-dom';
+import {editProduct} from '../actions/userActions';
+import {connect} from 'react-redux';
 
-export const Product=()=>{
+const Product=(props)=>{
     const {id}=useParams();
     const {push}=useHistory();
+    const [products,setProducts]=useState(props.products)
     const [item,setItem]=useState(
         {id:'',
         name:'',
@@ -45,10 +48,11 @@ export const Product=()=>{
         axiosWithAuth()   
         .put(`/api/products/${id}`,item)
         .then(res=>
-            // props.setMovieList(...props.movieList,{res.data}))
-            console.log(res))
+            setProducts([...products,res.data]))
+            // console.log(res))
         .catch(err=>console.log(err))
-        // push(`/protected/itemsList`);
+        props.editProduct(item,id);
+        push(`/protected/itemsList`);
         // setItem({
         //     name:'',
         //     price:'',
@@ -72,3 +76,20 @@ export const Product=()=>{
         </div>
     )
 }
+
+const mapStateToProps=state=>{
+    return{
+     users:state.users,
+    //  isFetching:state.isFetching,
+    //  fetchingError:state.fetchingError,
+     products:state.products,
+     productsError:state.productsError,
+     isEditing:state.isEditing,
+     editingError:state.editingError
+    }
+ }
+//  const mapDispatchToProps={
+//     getProducts,
+//     addProducts
+//   }
+ export default connect(mapStateToProps,{editProduct})(Product)

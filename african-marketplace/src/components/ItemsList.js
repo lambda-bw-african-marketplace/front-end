@@ -1,12 +1,12 @@
 import React,{useState,useEffect} from 'react';
 // import {items} from './Items';
 import {connect} from 'react-redux';
-import {getProducts} from '../actions/userActions';
+import {getProducts, addProducts, deleteProduct} from '../actions/userActions';
 // import axios from 'axios';
 import { axiosWithAuth } from '../axiosWithAuth';
 import {useHistory} from 'react-router-dom'
 
-const item={name:'',price:'',city:'',category:'',description:'',unit:''};
+const item={id:'',name:'',price:'',city:'',category:'',description:'',unit:'',user_id:''};
 const ItemsList=((props)=>{
     const [products,setProducts]=useState(props.products);
     const [product,setProduct]=useState(item)
@@ -21,8 +21,9 @@ const ItemsList=((props)=>{
         .then(res=>
             setProducts([...products,res.data]))
         .catch(err=>console.log(err));
-        props.getProducts();        
-        setProduct({name:'',price:'',city:'',category:'',description:'',unit:''})
+        props.getProducts(); 
+        props.addProducts(product);       
+        setProduct({id:'',name:'',price:'',city:'',category:'',description:'',unit:'',user_id:''})
     }
 
     const handleChange=(e)=>{
@@ -38,6 +39,7 @@ const ItemsList=((props)=>{
         .delete(`/api/products/${id}`,product)
         .then(res=>console.log(res))
         .catch(err=>console.log(err))
+        props.deleteProduct(id)
     }
     // const formSubmit=(e)=>{ 
     //     e.preventDefault();
@@ -45,16 +47,17 @@ const ItemsList=((props)=>{
     // }
     console.log(props.products)
     console.log(products)
+    console.log(props.users)
     return(
     <div>
         <h1>Items</h1>        
-        <form >
+    <form >
             <input type='text' name='name' placeholder='product name' value={product.name} onChange={handleChange}/>
             <input type='text' name='price' placeholder='price' value={product.price} onChange={handleChange}/>
             <input type='text' name='city' placeholder='city' value={product.city} onChange={handleChange}/>
             <input type='text' name='category' placeholder='category' value={product.category} onChange={handleChange}/>
             <input type='text' name='description' placeholder='description' value={product.description} onChange={handleChange}/>
-            <input type='text' name='unit' placeholder='unit ex.pounds,ounces,etc...' value={product.unit} onChange={handleChange}/>
+            <input type='text' name='unit' placeholder='unit (pounds,ounces,etc)' value={product.unit} onChange={handleChange}/>
             <button onClick={addProduct}>Add Item</button>
 
         </form>
@@ -85,5 +88,9 @@ const mapStateToProps=state=>{
      productsError:state.productsError
     }
  }
- 
- export default connect(mapStateToProps,{getProducts})(ItemsList)
+ const mapDispatchToProps={
+    getProducts,
+    addProducts,
+    deleteProduct
+  }
+ export default connect(mapStateToProps,mapDispatchToProps)(ItemsList)
