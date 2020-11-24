@@ -8,8 +8,8 @@ import {Link, Switch, Route} from 'react-router-dom';
 import {PrivateRoute} from './components/PrivateRoute';
 import ItemsList from './components/ItemsList';
 import Login from './components/Login';
-import {Product}  from './components/EditProduct';
-import {Registration} from './components/Registration';
+import Product  from './components/EditProduct';
+import Registration from './components/Registration';
 
 
 function App() {
