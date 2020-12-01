@@ -9,14 +9,14 @@ const Product=(props)=>{
     const {push}=useHistory();
     const [products,setProducts]=useState(props.products)
     const [item,setItem]=useState(
-        {id:'',
+        {
         name:'',
         price:'',
         city:'',
         category:'',
         description:'',
         unit:'',
-        user_id:''}
+       }
     )
 
     useEffect(()=>{
@@ -24,14 +24,14 @@ const Product=(props)=>{
         .get(`/api/products/${id}`)
         // .then(res=>console.log(res))
         .then(res=>setItem(
-            {...item, id:res.data.id,
+            {...item,
                 name:res.data.name,
                 price:res.data.price,
                 city:res.data.city,
                 category:res.data.category,
                 description:res.data.description,
                 unit:res.data.unit,
-                user_id:res.data.user_id
+               
             }
         ))
         .catch(err=>console.log(err))
