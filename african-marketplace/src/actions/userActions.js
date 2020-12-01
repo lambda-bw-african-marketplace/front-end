@@ -2,8 +2,8 @@ import axios from 'axios';
 import { axiosWithAuth } from '../axiosWithAuth';
 
 export const FETCH_PRODUCTS='FETCH_PRODUCTS';
-export const FETCH_SUCCESS='FETCH_SUCCESS';
-export const FETCH_FAIL='FETCH_FAILURE';
+// export const FETCH_SUCCESS='FETCH_SUCCESS';
+// export const FETCH_FAIL='FETCH_FAILURE';
 export const PRODUCTS_SUCCESS='PRODUCTS_SUCCESS';
 export const PRODUCTS_FAIL='PRODUCTS_FAIL';
 export const ADD_PRODUCTS='ADD_PRODUCTS';
@@ -26,7 +26,7 @@ export const getProducts=()=>(dispatch)=>{
     .get('/api/products')
     .then(res=>
         dispatch({type:PRODUCTS_SUCCESS,payload:res.data},
-            console.log(res)
+            // console.log(res)
         ))
     .catch(err=>dispatch({type:PRODUCTS_FAIL,payload:err}))
 
@@ -38,7 +38,7 @@ export const addProducts=(obj)=>(dispatch)=>{
     .post('/api/products',obj)
     .then(res=>
         dispatch({type:PRODUCTS_ADDITION_SUCCESS,payload:res.data},
-            console.log(res)
+            // console.log(res)
         ))
     .catch(err=>dispatch({type:PRODUCTS_ADDITION_FAIL,payload:err}))
 
@@ -50,7 +50,7 @@ export const editProduct=(obj,id)=>(dispatch)=>{
     .put(`/api/products/${id}`,obj)
     .then(res=>
     dispatch({type:EDITING_PRODUCT,payload:res.data},
-        console.log(res)
+        // console.log(res)
     // res.data.results.map(user=>
     //     user.products)
     ))
@@ -71,7 +71,7 @@ export const addUser=(obj)=>(dispatch)=>{
     .post('/api/register',obj)
     .then(res=>
         dispatch({type:ADD_USER_SUCCESS,payload:res.data},
-            console.log(res)
+            // console.log(res)
         ))
     .catch(err=>dispatch({type:ADD_USER_FAIL,payload:err}))
 

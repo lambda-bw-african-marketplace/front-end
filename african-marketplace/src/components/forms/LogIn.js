@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import * as Yup from 'yup';
-
+import {axiosWithAuth} from '../../axiosWithAuth'
 import {loginSchema} from './validation';
 import {FormContainer, InputContainer, Label, TextInput, PasswordInput, SubmitButton, InputErrorMessage} from './FormStyles';
+import {useHistory} from 'react-router-dom';
 
 const LogIn = () => {
     const defaultFormData = {
@@ -20,6 +21,7 @@ const LogIn = () => {
     const [formData, setFormData] = useState({...defaultFormData});
     const [errors, setErrors] = useState({});
     const [valid, setValid] = useState(validateForm(formData));
+    const {push}=useHistory();
 
     useEffect(() => {
         validateForm(formData);
@@ -27,7 +29,7 @@ const LogIn = () => {
 
     const handleChange = evt => {
         setFormData({...formData, [evt.target.name]: evt.target.value});
-        console.log(evt);
+        // console.log(evt);
     };
 
     const handleBlur = evt => {
@@ -45,13 +47,24 @@ const LogIn = () => {
             });
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
         if (valid) {
-            // TODO: submit form data
+            // TODO: submit form data            
+            e.preventDefault();
+            // axios
+            axiosWithAuth()
+            .post('https://africa-mkplace.herokuapp.com/api/login',formData)
+            .then((res)=>{alert(res.data.message);
+                localStorage.setItem('token',res.data.token);
+                // localStorage.setItem('*',res.data.headers['Access-Control-Allow-Origin']);
+                push('/protected/itemsList');
+            })
+            .catch((err)=>console.log(err));
             setFormData(defaultFormData);
+
         };
     };
-
+    // console.log(formData)
     return (
         <FormContainer>
             <InputContainer>

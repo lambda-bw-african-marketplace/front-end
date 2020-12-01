@@ -6,7 +6,7 @@ import {getProducts, addProducts, deleteProduct} from '../actions/userActions';
 import { axiosWithAuth } from '../axiosWithAuth';
 import {useHistory} from 'react-router-dom'
 
-const item={id:'',name:'',price:'',city:'',category:'',description:'',unit:'',user_id:''};
+const item={name:'',price:'',city:'',category:'',description:'',unit:'',};
 const ItemsList=((props)=>{
     const [products,setProducts]=useState(props.products);
     const [product,setProduct]=useState(item)
@@ -21,9 +21,10 @@ const ItemsList=((props)=>{
         .then(res=>
             setProducts([...products,res.data]))
         .catch(err=>console.log(err));
-        props.getProducts(); 
+        // props.getProducts(); 
+        //must pass in object containg array but spread data to pass in new object
         props.addProducts(product);       
-        setProduct({id:'',name:'',price:'',city:'',category:'',description:'',unit:'',user_id:''})
+        setProduct({name:'',price:'',city:'',category:'',description:'',unit:'',})
     }
 
     const handleChange=(e)=>{
@@ -47,7 +48,7 @@ const ItemsList=((props)=>{
     // }
     console.log(props.products)
     console.log(products)
-    console.log(props.users)
+    // console.log(props.users)
     return(
     <div>
         <h1>Items</h1>        
@@ -81,11 +82,14 @@ const ItemsList=((props)=>{
 })
 const mapStateToProps=state=>{
     return{
-     users:state.users,
-     isFetching:state.isFetching,
-     fetchingError:state.fetchingError,
-     products:state.products,
-     productsError:state.productsError
+        users:state.users,
+        isFetching:state.isFetching,
+        fetchingError:state.fetchingError,
+        products:state.products,
+        isAddingProduct:state.isAddingProduct,
+        addProductError:state.addProductError,
+        isDeleting:state.isDeleting,
+        deletingError:state.deletingError
     }
  }
  const mapDispatchToProps={
